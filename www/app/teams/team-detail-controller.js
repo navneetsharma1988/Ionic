@@ -44,7 +44,6 @@
         .find({"teamId": self.teamId})
         .value();
 
-      //console.log('$stateParams', $stateParams);
     }
 
     function isTeamInGame(item){

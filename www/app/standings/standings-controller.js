@@ -3,7 +3,7 @@
 
   angular
     .module('eliteApp')
-    .controller('StandingsController', ['EliteApi',TeamsController]);
+    .controller('StandingsController', ['EliteApi', TeamsController]);
 
   function TeamsController(EliteApi) {
     var self = this;
@@ -14,7 +14,5 @@
       var data = EliteApi.getLeagueData();
       self.standings = data.standings;
     }
-
-
   }
 })();

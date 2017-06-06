@@ -1,5 +1,46 @@
-<ion-view ng-controller="TeamDetailCtrl">
+<ion-view title="{{TeamDetailCtrl.teamName}}" ng-controller="TeamDetailController as TeamDetailCtrl">
   <ion-content class="has-header">
-    <h1>Team Detail</h1>
+    <div class="card">
+      <!--<div class="item">
+        <h2>Record: {{TeamDetailCtrl.teamStanding.wins}} - {{TeamDetailCtrl.teamStanding.losses}}</h2>
+      </div>-->
+
+      <!--<div class="item item-checkbox">
+        <h2>{{TeamDetailCtrl.following ? "Following" : "Not Following"}}</h2>
+        <label class="checkbox">
+          <input type="checkbox" ng-model="TeamDetailCtrl.following">
+        </label>
+      </div>-->
+
+      <div class="item item-toggle">
+        <h2>{{TeamDetailCtrl.following ? "Following" : "Not Following"}}</h2>
+        <label class="toggle toggle-energized">
+          <input type="checkbox" ng-model="TeamDetailCtrl.following">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="list">
+      <a class="item item-icon-right"
+         ng-repeat="game in TeamDetailCtrl.games"
+         ui-sref="app.game({ id: game.gameId })">
+        <div class="row">
+          <div class="col-20">
+            <p>{{game.time | date: 'M/d/yy'}}</p>
+            <p>{{game.time | date: 'shortTime'}}</p>
+          </div>
+          <div class="col col-center">
+            <h3>{{game.homeAway}} {{game.opponent}}</h3>
+            <p>{{game.location}}</p>
+          </div>
+          <div class="col-20 col-center">
+            <h4 class="positive">{{game.scoreDisplay}}</h4>
+          </div>
+        </div>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+    </div>
   </ion-content>
 </ion-view>
