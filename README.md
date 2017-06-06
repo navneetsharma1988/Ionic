@@ -1,2 +1,2 @@
 # Ionic
-Sample mobile applications using Angular &amp; Ionic
+EliteSchedule App using Angular &amp; Ionic
