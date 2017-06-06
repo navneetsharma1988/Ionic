@@ -11,8 +11,9 @@
     init();
 
     function init() {
-      var data = EliteApi.getLeagueData();
-      self.locations = data.locations;
+      EliteApi.getLeagueData().then(function (data) {
+        self.locations = data.locations;
+      });
     }
   }
 })();

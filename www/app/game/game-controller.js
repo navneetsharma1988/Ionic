@@ -12,9 +12,9 @@
 
     function init() {
       var gameId = Number($stateParams.id);
-      var data = EliteApi.getLeagueData();
-
-      self.game = _.find(data.games, {"id": gameId});
+      EliteApi.getLeagueData().then(function (data) {
+        self.game = _.find(data.games, {"id": gameId});
+      });
     }
   }
 })();

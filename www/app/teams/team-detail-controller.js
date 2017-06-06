@@ -3,50 +3,76 @@
 
   angular
     .module('eliteApp')
-    .controller('TeamDetailController', ['$stateParams', 'EliteApi', TeamDetailController]);
+    .controller('TeamDetailController',
+      ['$stateParams',
+        'EliteApi',
+        '$ionicPopup',
+        TeamDetailController
+      ]);
 
-  function TeamDetailController($stateParams, EliteApi) {
+  function TeamDetailController($stateParams, EliteApi, $ionicPopup) {
     var self = this;
 
     init();
 
     function init() {
       self.teamId = Number($stateParams.id);
-      var data = EliteApi.getLeagueData();
+      EliteApi.getLeagueData().then(function (data) {
 
-      var team = _.chain(data.teams)
-        .flatten("divisionTeams")
-        .find({"id": self.teamId})
-        .value();
+        var team = _.chain(data.teams)
+          .flatten("divisionTeams")
+          .find({"id": self.teamId})
+          .value();
 
-      self.teamName = team.name;
+        self.teamName = team.name;
 
-      self.games = _.chain(data.games)
-        .filter(isTeamInGame)
-        .map(function (item) {
-          var isTeam1 = (item.team1Id === self.teamId ? true : false);
-          var opponentName = isTeam1 ? item.team2 : item.team1;
-          var scoreDisplay = getScoreDisplay(isTeam1, item.team1Score, item.team2Score);
-          return {
-            gameId: item.id,
-            opponent: opponentName,
-            time: item.time,
-            location: item.location,
-            locationUrl: item.locationUrl,
-            scoreDisplay: scoreDisplay,
-            homeAway: (isTeam1 ? "vs." : "at")
-          };
-        })
-        .value();
+        self.games = _.chain(data.games)
+          .filter(isTeamInGame)
+          .map(function (item) {
+            var isTeam1 = (item.team1Id === self.teamId ? true : false);
+            var opponentName = isTeam1 ? item.team2 : item.team1;
+            var scoreDisplay = getScoreDisplay(isTeam1, item.team1Score, item.team2Score);
+            return {
+              gameId: item.id,
+              opponent: opponentName,
+              time: item.time,
+              location: item.location,
+              locationUrl: item.locationUrl,
+              scoreDisplay: scoreDisplay,
+              homeAway: (isTeam1 ? "vs." : "at")
+            };
+          })
+          .value();
 
-      self.teamStanding = _.chain(data.standings)
-        .flatten("divisionStandings")
-        .find({"teamId": self.teamId})
-        .value();
+        self.teamStanding = _.chain(data.standings)
+          .flatten("divisionStandings")
+          .find({"teamId": self.teamId})
+          .value();
+      });
+
+      self.following = false;
 
     }
 
-    function isTeamInGame(item){
+    self.toggleFollow = function () {
+      if (self.following) {
+        var confirmPopup = $ionicPopup.confirm({
+          title: 'Unfollow?',
+          template: 'Are you sure you want to unfollow?'
+        });
+        confirmPopup.then(function (res) {
+          if (res) {
+            self.following = !self.following;
+          }
+        });
+      }
+      else {
+        self.following = !self.following;
+      }
+    };
+
+
+    function isTeamInGame(item) {
       return item.team1Id === self.teamId || item.team2Id === self.teamId;
     }
 

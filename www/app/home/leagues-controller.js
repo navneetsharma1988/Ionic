@@ -11,11 +11,13 @@
     init();
 
     function init() {
-      self.leagues = EliteApi.getLeagues();
+      EliteApi.getLeagues().then(function (data) {
+        self.leagues = data;
+      });
     }
 
     self.selectLeague = function (leagueId) {
-      //TODO: select correct league
+      EliteApi.setLeagueId(leagueId);
       $state.go('app.teams');
     };
 
