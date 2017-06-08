@@ -8,12 +8,14 @@
   function TeamsController(EliteApi) {
     var self = this;
 
-    init();
+        self.loadList = function(forceRefresh) {
+          EliteApi.getLeagueData(forceRefresh).then(function(data) {
+                self.teams = data.teams;
+            }).finally(function(){
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
 
-    function init() {
-      EliteApi.getLeagueData().then(function (data) {
-        self.teams = data.teams;
-      });
-    }
-  }
+        self.loadList(false);
+    };
 })();
