@@ -1,4 +1,3 @@
 {
-  "directory": "www/lib",
-  "strict-ssl": false
+  "directory": "www/lib"
 }

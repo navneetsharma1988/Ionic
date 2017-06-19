@@ -1,0 +1,10 @@
+<ion-view ng-controller="LocationMapController as LocationMapCtrl">
+  <ion-content class="has-header">
+    <google-map draggable="true" center="LocationMapCtrl.map.center" zoom="LocationMapCtrl.map.zoom">
+      <marker coords="LocationMapCtrl.marker"
+              click="LocationMapCtrl.locationClicked(LocationMapCtrl.marker)">
+        <marker-label content="LocationMapCtrl.marker.title" anchor="10 -8" class="marker-labels"></marker-label>
+      </marker>
+    </google-map>
+  </ion-content>
+</ion-view>

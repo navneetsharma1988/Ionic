@@ -7,19 +7,21 @@
       ['$stateParams',
         'EliteApi',
         '$ionicPopup',
+        'MyTeamsService',
         TeamDetailController
       ]);
 
-  function TeamDetailController($stateParams, EliteApi, $ionicPopup) {
-    var self = this;
-
+  function TeamDetailController($stateParams, EliteApi, $ionicPopup, MyTeamsService) {
+    var self = this,
+            team = null,
+            leagueData = null;
     init();
 
     function init() {
       self.teamId = Number($stateParams.id);
       EliteApi.getLeagueData().then(function (data) {
 
-        var team = _.chain(data.teams)
+        team = _.chain(data.teams)
           .flatten("divisionTeams")
           .find({"id": self.teamId})
           .value();
@@ -48,13 +50,16 @@
           .flatten("divisionStandings")
           .find({"teamId": self.teamId})
           .value();
-      });
+            leagueData = data.league;
+        });
 
-      self.following = false;
 
+      //self.following = false;
+      self.following = MyTeamsService.isFollowingTeam(self.teamId.toString());
     }
 
     self.toggleFollow = function () {
+
       if (self.following) {
         var confirmPopup = $ionicPopup.confirm({
           title: 'Unfollow?',
@@ -63,11 +68,12 @@
         confirmPopup.then(function (res) {
           if (res) {
             self.following = !self.following;
+            MyTeamsService.unfollowTeam(team.id);
           }
         });
-      }
-      else {
+      } else {
         self.following = !self.following;
+        MyTeamsService.followTeam({id: team.id, name: team.name, leagueId: leagueData.id, leagueName: leagueData.name});
       }
     };
 

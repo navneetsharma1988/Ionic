@@ -1,4 +1,4 @@
-angular.module("eliteApp", ["ionic", "angular-data.DSCacheFactory"])
+angular.module("eliteApp", ["ionic", "angular-data.DSCacheFactory", "google-maps"])
 
 .run(function($ionicPlatform, DSCacheFactory) {
   $ionicPlatform.ready(function() {
@@ -12,8 +12,8 @@ angular.module("eliteApp", ["ionic", "angular-data.DSCacheFactory"])
       StatusBar.styleDefault();
     }
 
-    DSCacheFactory("leagueDataCache", { storageMode: "localStorage", maxAge: 360000, deleteOnExpire: "aggressive" });
-    DSCacheFactory("leaguesCache", { storageMode: "localStorage", maxAge: 360000, deleteOnExpire: "aggressive" });
+    DSCacheFactory("leagueDataCache", { storageMode: "localStorage", maxAge: 720000, deleteOnExpire: "aggressive" });
+    DSCacheFactory("leaguesCache", { storageMode: "localStorage", maxAge: 720000, deleteOnExpire: "aggressive" });
     DSCacheFactory("myTeamsCache", { storageMode: "localStorage" });
     DSCacheFactory("staticCache", { storageMode: "localStorage" });
   });
@@ -94,6 +94,24 @@ angular.module("eliteApp", ["ionic", "angular-data.DSCacheFactory"])
       views: {
         'mainContent': {
           templateUrl: "app/locations/locations.html"
+        }
+      }
+    })
+
+    .state('app.location-map', {
+      url: "/location-map/:id",
+      views: {
+        'mainContent': {
+          templateUrl: "app/locations/location-map.html"
+        }
+      }
+    })
+
+    .state('app.location-schedule', {
+      url: "/location-schedule/:id",
+      views: {
+        'mainContent': {
+          templateUrl: "app/locations/location-schedule.html"
         }
       }
     })

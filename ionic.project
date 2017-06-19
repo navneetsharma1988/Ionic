@@ -1,4 +1,12 @@
 {
-  "name": "EliteScheduleApp",
-  "app_id": ""
+  "name": "EliteSchedule",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }

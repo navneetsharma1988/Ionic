@@ -3,7 +3,7 @@
 
   angular
     .module('eliteApp')
-    .controller('GameController', ['EliteApi', '$stateParams',GameController]);
+    .controller('GameController', ['EliteApi', '$stateParams', GameController]);
 
   function GameController(EliteApi, $stateParams) {
     var self = this;

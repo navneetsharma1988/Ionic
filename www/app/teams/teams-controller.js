@@ -3,9 +3,9 @@
 
   angular
     .module('eliteApp')
-    .controller('TeamsController', ['EliteApi', TeamsController]);
+    .controller('TeamsController', ['EliteApi', '$scope', TeamsController]);
 
-  function TeamsController(EliteApi) {
+  function TeamsController(EliteApi, $scope) {
     var self = this;
 
         self.loadList = function(forceRefresh) {
